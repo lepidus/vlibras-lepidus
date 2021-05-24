@@ -5,4 +5,4 @@ msgid "plugins.block.vlibras.displayName"
 msgstr "VLibras Lepidus"
 
 msgid "plugins.block.vlibras.description"
-msgstr "Este módulo proporciona un traductor automático para libras"
+msgstr "Este módulo proporciona un traductor automático para Libras"

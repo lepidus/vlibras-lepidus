@@ -5,5 +5,5 @@ msgid "plugins.block.vlibras.displayName"
 msgstr "VLibras Lepidus"
 
 msgid "plugins.block.vlibras.description"
-msgstr "This plugin provides an automated translator for pounds"
+msgstr "This plugin provides an automated translator for Libras"
 
