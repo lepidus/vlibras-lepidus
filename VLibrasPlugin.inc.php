@@ -1,8 +1,31 @@
 <?php
 
-import('lib.pkp.classes.plugins.BlockPlugin');
+import('lib.pkp.classes.plugins.GenericPlugin');
 
-class VLibrasPlugin extends BlockPlugin {
+class VLibrasPlugin extends GenericPlugin {
+
+	function register($category, $path, $mainContextId = null) {
+		if (parent::register($category, $path, $mainContextId)) {
+			// HookRegistry para o pdf
+			// HookRegistry::register('PreprintHandler::download',array(&$this, 'callback')); 
+			// HookRegistry::register('ArticleHandler::download',array(&$this, 'callback'));
+			HookRegistry::register('TemplateManager::display', array(&$this, 'callbackTemplateDisplay'));
+			return true;
+		}
+		return false;
+	}
+
+	function callbackTemplateDisplay($hookName, $args) {
+		
+		if ($hookName != 'TemplateManager::display') return false;
+		$templateMgr = $args[0];
+		$template = $args[1];
+
+		$blockVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('block.tpl'));
+		$templateMgr->addHeader('blockVLibrasTpl', $blockVLibrasTpl, $args);
+
+		return false;
+	}
 
 	/**
 	 * Install default settings on system install.
@@ -25,14 +48,14 @@ class VLibrasPlugin extends BlockPlugin {
 	 * @return String
 	 */
 	function getDisplayName() {
-		return __('plugins.block.vlibras.displayName');
+		return __('plugins.generic.vlibras.displayName');
 	}
 
 	/**
 	 * Get a description of the plugin.
 	 */
 	function getDescription() {
-		return __('plugins.block.vlibras.description');
+		return __('plugins.generic.vlibras.description');
 	}
 }
 

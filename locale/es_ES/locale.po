@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 
-msgid "plugins.block.vlibras.displayName"
+msgid "plugins.generic.vlibras.displayName"
 msgstr "VLibras Lepidus"
 
-msgid "plugins.block.vlibras.description"
+msgid "plugins.generic.vlibras.description"
 msgstr "Este módulo proporciona un traductor automático para Libras"
