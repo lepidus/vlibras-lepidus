@@ -6,9 +6,6 @@ class VLibrasPlugin extends GenericPlugin {
 
 	function register($category, $path, $mainContextId = null) {
 		if (parent::register($category, $path, $mainContextId)) {
-			// HookRegistry para o pdf
-			// HookRegistry::register('PreprintHandler::download',array(&$this, 'callback')); 
-			// HookRegistry::register('ArticleHandler::download',array(&$this, 'callback'));
 			HookRegistry::register('TemplateManager::display', array(&$this, 'callbackTemplateDisplay'));
 			return true;
 		}
@@ -19,7 +16,6 @@ class VLibrasPlugin extends GenericPlugin {
 		
 		if ($hookName != 'TemplateManager::display') return false;
 		$templateMgr = $args[0];
-		$template = $args[1];
 
 		$blockVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('block.tpl'));
 		$templateMgr->addHeader('blockVLibrasTpl', $blockVLibrasTpl, $args);
