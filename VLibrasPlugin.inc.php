@@ -13,14 +13,24 @@ class VLibrasPlugin extends GenericPlugin {
 	}
 
 	function callbackTemplateDisplay($hookName, $args) {
-		
-		if ($hookName != 'TemplateManager::display') return false;
 		$templateMgr = $args[0];
+		$template = $args[1];
+
+		if ($hookName != 'TemplateManager::display' || $this->filterTemplatesToOmit($template) ) return false;
 
 		$blockVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('block.tpl'));
 		$templateMgr->addHeader('blockVLibrasTpl', $blockVLibrasTpl, $args);
 
 		return false;
+	}
+
+	function filterTemplatesToOmit($template){
+		$templatesDiscarted = "pdfJsViewer:submissionGalley.tpl";
+		$templateDiscartedOMP = "pdfJsViewer:display.tpl";
+
+		if(strpos($template,$templatesDiscarted) || strpos($template,$templateDiscartedOMP)) return true;
+
+		return false;		
 	}
 
 	/**
