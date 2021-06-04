@@ -3,9 +3,9 @@
 
 <version>
 	<application>vlibras-lepidus</application>
-	<type>plugins.blocks</type>
-	<release>1.0.0.0</release>
-	<date>2021-05-20</date>
+	<type>plugins.generic</type>
+	<release>1.0.2.0</release>
+	<date>2021-06-01</date>
 	<lazy-load>1</lazy-load>
 	<class>VLibrasPlugin</class>
 </version>
