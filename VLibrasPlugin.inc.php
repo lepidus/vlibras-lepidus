@@ -6,31 +6,34 @@ class VLibrasPlugin extends GenericPlugin {
 
 	function register($category, $path, $mainContextId = null) {
 		if (parent::register($category, $path, $mainContextId)) {
-			HookRegistry::register('TemplateManager::display', array(&$this, 'insertTemplateVLibrasIcon'));
+			HookRegistry::register('TemplateManager::display', array($this, 'loadJsAsyncInHead'));
+			HookRegistry::register('Templates::Common::Footer::PageFooter', array($this, 'insertTemplateVLibrasIconInFooter'));
 			return true;
 		}
 		return false;
 	}
 
-	function insertTemplateVLibrasIcon($hookName, $args) {
-		$templateMgr = $args[0];
-		$template = $args[1];
+	function insertTemplateVLibrasIconInFooter($hookName, $args) {
+		$request = Application::get()->getRequest();
+		$templateMgr = TemplateManager::getManager($request);
+		$output =& $args[2];		
 
-		if ($this->filterTemplatesToOmit($template) ) return false;
+		if(!empty($templateMgr->getTemplateVars()['galley']) || !empty($templateMgr->getTemplateVars()['submissionFile'])) return false;
 
 		$iconVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('iconVLibras.tpl'));
-		$templateMgr->addHeader('iconVLibrasTpl', $iconVLibrasTpl, $args);
+		$output .= $iconVLibrasTpl;
 
 		return false;
 	}
 
-	function filterTemplatesToOmit($template){
-		$templatesToOmit = ["plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
-		"plugins-2-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
-		"plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:display.tpl"];
+	function loadJsAsyncInHead($hookName, $args) {
+		$template =& $args[1];
+		$templateMgr =& $args[0];
 
-		if(in_array($template,$templatesToOmit)) return true;
-		return false;		
+		if(!empty($templateMgr->getTemplateVars()['galley']) || !empty($templateMgr->getTemplateVars()['submissionFile'])) return false;
+		
+		$templateMgr->addHeader('js_Async', '<script async src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>' , $args);
+		return false;
 	}
 
 	/**
