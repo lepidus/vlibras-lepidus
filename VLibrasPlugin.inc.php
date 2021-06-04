@@ -6,30 +6,30 @@ class VLibrasPlugin extends GenericPlugin {
 
 	function register($category, $path, $mainContextId = null) {
 		if (parent::register($category, $path, $mainContextId)) {
-			HookRegistry::register('TemplateManager::display', array(&$this, 'callbackTemplateDisplay'));
+			HookRegistry::register('TemplateManager::display', array(&$this, 'insertTemplateVLibrasIcon'));
 			return true;
 		}
 		return false;
 	}
 
-	function callbackTemplateDisplay($hookName, $args) {
+	function insertTemplateVLibrasIcon($hookName, $args) {
 		$templateMgr = $args[0];
 		$template = $args[1];
 
-		if ($hookName != 'TemplateManager::display' || $this->filterTemplatesToOmit($template) ) return false;
+		if ($this->filterTemplatesToOmit($template) ) return false;
 
-		$blockVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('block.tpl'));
-		$templateMgr->addHeader('blockVLibrasTpl', $blockVLibrasTpl, $args);
+		$iconVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('iconVLibras.tpl'));
+		$templateMgr->addHeader('iconVLibrasTpl', $iconVLibrasTpl, $args);
 
 		return false;
 	}
 
 	function filterTemplatesToOmit($template){
-		$templatesDiscarted = "pdfJsViewer:submissionGalley.tpl";
-		$templateDiscartedOMP = "pdfJsViewer:display.tpl";
+		$templatesToOmit = ["plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
+		"plugins-2-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
+		"plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:display.tpl"];
 
-		if(strpos($template,$templatesDiscarted) || strpos($template,$templateDiscartedOMP)) return true;
-
+		if(in_array($template,$templatesToOmit)) return true;
 		return false;		
 	}
 
