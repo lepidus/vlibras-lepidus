@@ -6,30 +6,30 @@ class VLibrasPlugin extends GenericPlugin {
 
 	function register($category, $path, $mainContextId = null) {
 		if (parent::register($category, $path, $mainContextId)) {
-			HookRegistry::register('TemplateManager::display', array(&$this, 'insertTemplateVLibrasIcon'));
+			HookRegistry::register('TemplateManager::display', array(&$this, 'insertVLibrasWidget'));
 			return true;
 		}
 		return false;
 	}
 
-	function insertTemplateVLibrasIcon($hookName, $args) {
+	function insertVLibrasWidget($hookName, $args) {
 		$templateMgr = $args[0];
 		$template = $args[1];
 
-		if ($this->filterTemplatesToOmit($template) ) return false;
+		if ($this->templateIsOnIgnoreList($template) ) return false;
 
-		$iconVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('iconVLibras.tpl'));
-		$templateMgr->addHeader('iconVLibrasTpl', $iconVLibrasTpl, $args);
+		$VLibrasWidgetTemplate = $templateMgr->fetch($this->getTemplateResource('VLibrasWidget.tpl'));
+		$templateMgr->addHeader('blockAddVLibras', $VLibrasWidgetTemplate, $args);
 
 		return false;
 	}
 
-	function filterTemplatesToOmit($template){
-		$templatesToOmit = ["plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
+	function templateIsOnIgnoreList($template){
+		$templatesToIgnore = ["plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
 		"plugins-2-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl",
 		"plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:display.tpl"];
 
-		if(in_array($template,$templatesToOmit)) return true;
+		if(in_array($template,$templatesToIgnore)) return true;
 		return false;		
 	}
 
