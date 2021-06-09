@@ -20,8 +20,8 @@ class VLibrasPlugin extends GenericPlugin {
 
 		if(!empty($templateMgr->getTemplateVars()['galley']) || !empty($templateMgr->getTemplateVars()['submissionFile'])) return false;
 
-		$iconVLibrasTpl = $templateMgr->fetch($this->getTemplateResource('iconVLibras.tpl'));
-		$output .= $iconVLibrasTpl;
+		$VLibrasWidgetTemplate = $templateMgr->fetch($this->getTemplateResource('VLibrasWidget.tpl'));
+		$output .= $VLibrasWidgetTemplate;
 
 		return false;
 	}
@@ -32,7 +32,7 @@ class VLibrasPlugin extends GenericPlugin {
 
 		if(!empty($templateMgr->getTemplateVars()['galley']) || !empty($templateMgr->getTemplateVars()['submissionFile'])) return false;
 		
-		$templateMgr->addHeader('js_Async', '<script async src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>' , $args);
+		$templateMgr->addHeader('addLoadAsync', '<script async src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>' , $args);
 		return false;
 	}
 
