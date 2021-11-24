@@ -11,3 +11,7 @@ A última versão disponível está presente em https://github.com/lepidus/vlibr
 
 * Este plugin pode interferir no funcionamento do plugin [Nuvem de Palavras-chave](https://github.com/lepidus/keywordCloud/). No momento a recomendação é optar por apenas um deles.
 
+### Licença
+
+Este plugin é licenciado pela GNU GENERAL PUBLIC LICENSE (GPL) v.3. Veja os detalhes no arquivo LICENSE.
+
